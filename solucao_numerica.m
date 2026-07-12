@@ -24,7 +24,8 @@ for t = 1:passos
     T(t+1) = T(t) + h;
 end
 
-%P lotando o gráfico
+
+% Plotando o gráfico X, Y
 figure;
 plot(X,Y, 'b-');
 title('Sistema Predador-Presa Lotka-Volterra');
@@ -33,13 +34,20 @@ ylabel('Y (Lobo/predador)');
 grid on;
 box on;
 print("sistema(YxX).png", "-dpng", "-r300");
+
+% Plotando X e Y no tempo
 figure;
-plot(T, X, 'b-', 'LineWidth', 1.5); 
-hold on;
-plot(T, Y, 'r-', 'LineWidth', 1.5);
+[ax, h1, h2] = plotyy(T, X, T, Y);
+
+set(h1, 'Color', 'b', 'LineWidth', 1.5);
+set(h2, 'Color', 'r', 'LineWidth', 1.5);
+
 title('Simulação: Lobos e Alces de Isle Royale (A partir de 2019)');
 xlabel('Ano');
-ylabel('População');
-legend('Alces (Presas)', 'Lobos (Predadores)');
+ylabel(ax(1), 'População de Alces (Presas)');
+ylabel(ax(2), 'População de Lobos (Predadores)');
 grid on;
-hold off;
+legend([h1, h2], {'Alces (Presas)', 'Lobos (Predadores)'});
+print("sistema(YxT).png", "-dpng", "-r300");
+
+waitfor(gcf);
